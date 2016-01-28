@@ -1,9 +1,14 @@
 /**
  * CSC115 Assignment 2 : Containers.
  * List.java
+ * Name: Daniel Olaya Moran
+ * ID: V00855054
+ * Date: Jan 26, 2016
+ * Filename: List.java
+ * Details: CSC115 Assignment 2- Collections
  * Created for use by CSC115 Spring2016 
  */
-fdsfsdfdsfadsfasd
+
 /*
  * NOTE TO PROGRAMMER:
  * Do not alter this file!
