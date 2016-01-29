@@ -16,20 +16,88 @@
 public class MedListRefBased implements List<Medication> {
 	
 	private MedicationNode head;
+	private MedicationNode n;
+	private MedicationNode curr;
 	private int listCount;
-	Medication m1 = new Medication ("test");
+
 
 	public MedListRefBased (){
 		head = null;
+		//head.prev = null;
+		listCount = 0 ;
 	}
+	//Internal method to print content of list
+	public void print (){
+		System.out.println (":::::PRINTING LIST:::::");
+		curr = head;
+		while (curr.next != null ){
+			System.out.println ("" + curr.item.getName() + " - " + curr+ ",  Prev: " + curr.prev + ",  Next: " + curr.next );
+			curr = curr.next;
+		}
+		System.out.println ("" + curr.item.getName() + " - " + curr+ ",  Prev: " + curr.prev + ",  Next: " + curr.next );
+
+
+	}
+
 	public void add(Medication k,int index) {
+		MedicationNode temp = new MedicationNode (k);
+		if (index <0 || index >listCount){
+			throw new ListIndexOutOfBoundsException("The index "+index+" is out of bounds.");
+		}
+		// Adding first item in the list
+		if (head == null || index == 0){
+			head = temp;
+			head.next = null;
+			head.prev = null;
+			listCount ++;
+			//System.out.println ("Adding 1st - head.item : " + head.item);
+			//System.out.println ("Adding 1st - head.prev : " + head.prev);
+			//System.out.println ("Adding 1st - head.next : " + head.next);
+		}
+		// Add additional items to the list
+		else {
+			curr = head;
+			int counter = 0;
+			while (curr.next != null && counter < index){
+				curr = curr.next;
+			}
+			curr.next = temp;
+			temp.prev = curr;
+			listCount ++;
+
+
+		/*Adding to the front of list
+			temp.next = head;
+			head.prev = temp;
+			head = temp;
+			listCount ++;
+		*/
+
+		/*Traversing to end of the list
+			curr = head;
+			while (curr.next != null){
+				curr = curr.next;
+			}
+			System.out.println ("Curr after traverse is: " + curr.item);
+		*/
+
+		/* Adding to the end of the list
+			curr.next = temp;
+			temp.prev = curr;
+			listCount ++;
+		*/
+
+
+		}
+		
+		
 	}
 
 	public void remove(int index) {
 	}
 
 	public Medication get(int index) {
-	return m1;
+	return null;
 	}
 
 	public boolean isEmpty() {
@@ -37,84 +105,76 @@ public class MedListRefBased implements List<Medication> {
 	}
 
 	public int size() {
-	return 1;
+	return 3;
 	}
 
 	public void removeAll() {
 	}
 
 	public int find(Medication item) {
-	return -1;
+	return -4;
 	}
 
 	public void remove(Medication item) {
 	}
-
+/*
 	public String toString() {
-	return "test";
+		//String print = ""+ item.getName + " : " + item.getDosage + " mg" ;
+	return "x";
 	}
-
+*/
 	public static void main(String[] args) {
+		// Creating Medication
+		Medication m1 = new Medication ("DMT", 200);
+		Medication m2 = new Medication ("LSD25", 350);
+		Medication m3 = new Medication ("Psilocybin", 450);
+		Medication m4 = new Medication ("Modafinil", 75);
 
-		System.out.println("INTERNAL TESTING BEGINS:");
-		List<Medication> list = null;
-		try {
-		/*
-		 * PROGRAMMER NOTE:
-		 * The following line needs to be changed to test the
-		 * MedListRefBased class.
-		 * Change "ArrayBased" to "RefBased" and run this
-		 * tester.  NOTHING ELSE SHOULD BE ALTERED
-		 */
-			list = new MedListRefBased();
-		} catch (Exception e) {
-			System.out.println("Constructor not working");
-			e.printStackTrace();	
-			return;
-		}
-		// Add some medicine:
-		Medication m1 = new Medication("ibuprofen",200);
-		list.add(m1,0);
-		System.out.print("Adding "+m1+" to an empty list: ");
-		if (list.size() != 1) {
-			System.out.println("FAILURE");
-			return;
-		} else {
-			System.out.println("SUCCESS");
-		}
-		/*
-		list.add(new Medication("meperidine",100),0);
-		list.add(new Medication("acetylsalicylic acid",325),0);
-		list.add(new Medication("acetominophen",100),0);
-		list.add(new Medication("cimetidine",150),3);
-		list.add(new Medication("meperidine",100),0);
-		System.out.println("The list should be {meperidine,acetominophen,asa,meperidine,cimetidine}");
-		System.out.println(list);
-		list.printArray();
-		// check to make sure the private shift methods work:
-		System.out.println("After sliding everything right from the second spot:");
-		list.slideRightFrom(1);
-		list.printArray();
-		// The list thinks its longer now.	
-		list.count++;
-		System.out.println("list version: "+list);
-		System.out.println("After sliding them back again:");
-		list.slideLeftTo(1);
-		list.count--;
-		list.printArray();
-		System.out.println("list version: "+list);
 
+		//System.out.println ("M1: " + m1);
+		//System.out.println ("M2: " + m2);
+
+		//Creating nodes only items
+		MedicationNode dan1 = new MedicationNode (m1);
+		MedicationNode dan2 = new MedicationNode (m2);
+		System.out.println ("\n\n" );
+		/*
+		System.out.println ("dan1.item: " + dan1.item);
+		System.out.println ("dan2.item: " + dan2.item);
+		System.out.println ("dan1: " + dan1);
+		System.out.println ("dan2: " + dan2);
 		
-		list.remove(new Medication("meperidine",100));
-		System.out.println("After removing meperidine:");
-		System.out.println(list);
-		System.out.println("The number of elements is "+list.size());
-		list.removeAll();
-		System.out.println("After removing all the elements:");
-		System.out.println(list);
-		System.out.println("The number of elements is now "+list.size());
-	*/
+		//Linking nodes
+		System.out.println ("dan1.prev: " + dan1.prev);
+		System.out.println ("dan2.prev: " + dan2.prev);
+		dan1.next = dan2;
+		dan2.prev = dan1;
+		System.out.println ("dan1.next (After assignment) : " + dan1.next);
+		System.out.println ("dan2.prev (After assignment) : " + dan2.prev);
+		*/
+		//Constructor
+		MedListRefBased list = null;
+		try {
+			list = new MedListRefBased ();
+		} catch (Exception e) {
+		System.out.println("Constructor not working");
+		e.printStackTrace();	
+		return;
+		}
+		System.out.println ("List: " + list);
 
-	}
+
+		//Add
+		list.add (m1,0);
+		list.print();
+		list.add (m2,0);
+		list.print();
+		list.add (m3,2);
+		list.add (m4,3);
+
+		list.print();
+
+
+	}		
 }
 
