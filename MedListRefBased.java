@@ -16,82 +16,69 @@
 public class MedListRefBased implements List<Medication> {
 	
 	private MedicationNode head;
-	private MedicationNode n;
+	private MedicationNode dummy;
 	private MedicationNode curr;
+
 	private int listCount;
 
 
 	public MedListRefBased (){
-		head = null;
-		//head.prev = null;
-		listCount = 0 ;
+		dummy = new MedicationNode (null);
+		head = dummy;
+		head.next = dummy; 
+		head.prev = dummy;
+		listCount=0;
+
 	}
 	//Internal method to print content of list
 	public void print (){
-		System.out.println (":::::PRINTING LIST:::::");
-		curr = head;
-		while (curr.next != null ){
-			System.out.println ("" + curr.item.getName() + " - " + curr+ ",  Prev: " + curr.prev + ",  Next: " + curr.next );
+		System.out.println ("-------------:::::PRINTING LIST:::::----------");
+		curr = head.next;
+		while (curr != head){
+			System.out.println ("curr: " + curr + " - " + curr.item);
 			curr = curr.next;
 		}
-		System.out.println ("" + curr.item.getName() + " - " + curr+ ",  Prev: " + curr.prev + ",  Next: " + curr.next );
-
+		System.out.println ("----------:::::END PRINTING LIST:::::---------");
 
 	}
 
 	public void add(Medication k,int index) {
-		MedicationNode temp = new MedicationNode (k);
+		MedicationNode newNode = new MedicationNode (k);
+		
 		if (index <0 || index >listCount){
 			throw new ListIndexOutOfBoundsException("The index "+index+" is out of bounds.");
 		}
-		// Adding first item in the list
-		if (head == null || index == 0){
-			head = temp;
-			head.next = null;
-			head.prev = null;
-			listCount ++;
-			//System.out.println ("Adding 1st - head.item : " + head.item);
-			//System.out.println ("Adding 1st - head.prev : " + head.prev);
-			//System.out.println ("Adding 1st - head.next : " + head.next);
+		curr = head.next;
+		int i = 0;
+		//System.out.println ("head is at: " + head.item + "-" + head + " ********************* " );
+		while ((curr != head) && (i < index)) {
+			curr = curr.next;
+			i++;
 		}
-		// Add additional items to the list
-		else {
-			curr = head;
-			int counter = 0;
-			while (curr.next != null && counter < index){
-				curr = curr.next;
-			}
-			curr.next = temp;
-			temp.prev = curr;
-			listCount ++;
+		//System.out.println ("curr is at: " + curr.item + "-" + curr + " ********************* " );
+		newNode.next = curr;
+		newNode.prev = curr.prev;
+		curr.prev = newNode;
+		newNode.prev.next = newNode;// How does this work??????
 
+		listCount ++;
+		System.out.println ("\n" );
+		print ();
 
-		/*Adding to the front of list
-			temp.next = head;
-			head.prev = temp;
-			head = temp;
-			listCount ++;
-		*/
-
-		/*Traversing to end of the list
-			curr = head;
-			while (curr.next != null){
-				curr = curr.next;
-			}
-			System.out.println ("Curr after traverse is: " + curr.item);
-		*/
-
-		/* Adding to the end of the list
-			curr.next = temp;
-			temp.prev = curr;
-			listCount ++;
-		*/
-
-
+/*Traverse with index tester
+		curr = head.next;
+		i = 0;
+		System.out.println ("head is at: " + head.item + "-" + head + " ********************* " );
+		while ((curr != head) && (i < index)) {
+			curr = curr.next;
+			i++;
 		}
-		
-		
+		System.out.println ("curr is at: " + curr.item + " - " + curr+ ", at index - " + index + " ********************* " );
+*/
+
+
 	}
+
 
 	public void remove(int index) {
 	}
@@ -125,32 +112,18 @@ public class MedListRefBased implements List<Medication> {
 */
 	public static void main(String[] args) {
 		// Creating Medication
-		Medication m1 = new Medication ("DMT", 200);
-		Medication m2 = new Medication ("LSD25", 350);
-		Medication m3 = new Medication ("Psilocybin", 450);
-		Medication m4 = new Medication ("Modafinil", 75);
-
-
-		//System.out.println ("M1: " + m1);
-		//System.out.println ("M2: " + m2);
+		Medication m1 = new Medication ("0- DMT", 200);
+		Medication m2 = new Medication ("1- LSD25", 350);
+		Medication m3 = new Medication ("2- Psilocybin", 450);
+		Medication m4 = new Medication ("3- Modafinil", 75);
+		Medication m5 = new Medication ("4- 2CB", 100);
 
 		//Creating nodes only items
 		MedicationNode dan1 = new MedicationNode (m1);
 		MedicationNode dan2 = new MedicationNode (m2);
-		System.out.println ("\n\n" );
+		System.out.println ("\n" );
 		/*
-		System.out.println ("dan1.item: " + dan1.item);
-		System.out.println ("dan2.item: " + dan2.item);
-		System.out.println ("dan1: " + dan1);
-		System.out.println ("dan2: " + dan2);
-		
-		//Linking nodes
-		System.out.println ("dan1.prev: " + dan1.prev);
-		System.out.println ("dan2.prev: " + dan2.prev);
-		dan1.next = dan2;
-		dan2.prev = dan1;
-		System.out.println ("dan1.next (After assignment) : " + dan1.next);
-		System.out.println ("dan2.prev (After assignment) : " + dan2.prev);
+
 		*/
 		//Constructor
 		MedListRefBased list = null;
@@ -161,20 +134,35 @@ public class MedListRefBased implements List<Medication> {
 		e.printStackTrace();	
 		return;
 		}
-		System.out.println ("List: " + list);
 
+		list.add (m1,0); //dmt
+		list.add (m2,1); //lsd
+		list.add (m3,2); //psi
+		list.add (m4,3); //mod
+		list.add (m5,4); //2cb
 
-		//Add
-		list.add (m1,0);
-		list.print();
-		list.add (m2,0);
-		list.print();
-		list.add (m3,2);
-		list.add (m4,3);
+		/*Add method tester
+		list.add (m1,0); //dmt
+		list.add (m2,1); //lsd
+		list.add (m3,2); //psi
+		list.add (m4,3); //mod
+		list.add (m5,4); //2cb
+		System.out.println ("Expected result: 0,1,2,3,4");
+		
+		list.add (m1,0); //dmt
+		list.add (m2,0); //lsd
+		list.add (m3,0); //psi
+		list.add (m4,0); //mod
+		list.add (m5,0); //2cb
+		System.out.println ("Expected result: 4,3,2,1,0");
 
-		list.print();
-
-
+		list.add (m1,0); //0.dmt
+		list.add (m2,1); //1.lsd
+		list.add (m3,1); //2.psi
+		list.add (m4,2); //3.mod
+		list.add (m5,0); //4.2cb
+		System.out.println ("Expected result: 4,0,2,3,0");
+		*/
 	}		
 }
 
