@@ -21,7 +21,9 @@ public class MedListRefBased implements List<Medication> {
 
 	private int listCount;
 
-
+	/**
+ 	 * Creates and initializes an empty List of Medication objects.
+ 	 */
 	public MedListRefBased (){
 		dummy = new MedicationNode (null);
 		head = dummy;
@@ -41,6 +43,10 @@ public class MedListRefBased implements List<Medication> {
 		System.out.println ("----------:::::END PRINTING LIST:::::---------");
 	}
 	*/
+
+	/**
+	 * Method that adds a new node to the list at a specified index.
+	 */
 	public void add(Medication k,int index) {
 		MedicationNode newNode = new MedicationNode (k);
 		
@@ -61,6 +67,7 @@ public class MedListRefBased implements List<Medication> {
 		newNode.prev.next = newNode;// How does this work??????
 		listCount ++;
 	}
+
 
 	public void remove(int index) {
 		
@@ -148,6 +155,12 @@ public class MedListRefBased implements List<Medication> {
 		print += "---===End of List===---";
 		return print;
 	}
+
+	/**
+	 * The main method is a test harness that allows this programmer to
+	 * do some tests to make sure the code is good enough for market.
+	 * @param args Some command line arguments that are not used.
+	 */
 
 	public static void main(String[] args) {
 		// Creating Medication
